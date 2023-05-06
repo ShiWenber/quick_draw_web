@@ -1,0 +1,28 @@
+tags:
+  - 识别效果测试接口
+description:
+  - 上传图片的base64码，返回图片识别结果，返回结果为json格式
+
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      properties:
+        image_data:
+          type: string
+          description: The base64 encoded image data
+responses:
+  200:
+    description: 图片识别成功
+    schema:
+      type: object
+      properties:
+        image_data:
+          type: string
+          description: The base64 encoded image data
+    example:
+  500:
+    description: 图片识别失败
+    example:

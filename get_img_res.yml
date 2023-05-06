@@ -1,0 +1,16 @@
+tags:
+  - 识别效果测试接口
+description:
+  - 上传图片，返回图片识别结果，返回结果为文件
+parameters:
+  - name: file
+    in: formData
+    type: file
+    required: true
+responses:
+  200:
+     description: 图片识别成功
+     example:
+  500:
+     description: 图片识别失败
+     example:

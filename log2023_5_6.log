@@ -1,0 +1,10 @@
+nohup: ignoring input
+[2023-05-05 18:49:34 +0000] [4775] [INFO] Starting gunicorn 20.1.0
+[2023-05-05 18:49:34 +0000] [4775] [INFO] Listening at: http://0.0.0.0:5002 (4775)
+[2023-05-05 18:49:34 +0000] [4775] [INFO] Using worker: sync
+[2023-05-05 18:49:34 +0000] [4778] [INFO] Booting worker with pid: 4778
+[2023-05-05 18:49:34 +0000] [4779] [INFO] Booting worker with pid: 4779
+[2023-05-05 18:49:34 +0000] [4780] [INFO] Booting worker with pid: 4780
+[2023-05-05 18:49:34 +0000] [4781] [INFO] Booting worker with pid: 4781
+[2023-05-05 18:49:34 +0000] [4782] [INFO] Booting worker with pid: 4782
+[2023-05-05 18:49:34 +0000] [4783] [INFO] Booting worker with pid: 4783

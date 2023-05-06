@@ -1,0 +1,29 @@
+tags:
+  - 正式接口
+description:
+  - 上传图片，返回图片识别结果，返回结果为数值
+
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      properties:
+        url:
+          type: string
+          description: url of the image
+          example: images/2022-04-21T17_02_19.jpg
+responses:
+  200:
+    description: 图片识别成功
+    schema:
+      type: object
+      properties:
+        status:
+          type: string
+          description: 植物病害状态
+          example: Healthy
+  500:
+    description: 图片识别失败
+    example:
