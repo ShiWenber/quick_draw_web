@@ -49,10 +49,16 @@ def get_img():
     file_name = uuid.uuid4().hex
     upload_path = os.path.join(base_path, "temp", file_name)
     file.save(upload_path)
-    res = pred.predict(upload_path)
+    res = {"disease_en": "Not recognized", "disease_zh": "未识别", "disease_id": ''}
+    try:
+        disease_en, disease_zh, disease_id = pred.predict(upload_path)
+        res = {"disease_en": disease_en, "disease_zh": disease_zh, "disease_id": disease_id}
+    except Exception as e:
+        print(e)
+        pass
     # 删除临时文件
     os.remove(upload_path)
-    res = {"status": res}
+
     # 返回图片
     ## 全部在内存缓冲区完成能提高性能（如果使用imwrite再保存会导致从外部磁盘读取的io操作）
     return jsonify(res)
@@ -76,10 +82,15 @@ def image():
     assert type(image) is np.ndarray
 
     # 图像处理部分
-    # res_img = segmentation(image)
-    res = pred.predict_img(image)
+    res = {"disease_en": "Not recognized", "disease_zh": "未识别", "disease_id": ''}
+    try:
+        disease_en, disease_zh, disease_id = pred.predict(image)
+        res = {"disease_en": disease_en, "disease_zh": disease_zh, "disease_id": disease_id}
+    except Exception as e:
+        print(e)
+        pass
 
-    return jsonify({'status': res})
+    return jsonify(res)
 
 
 @app.route("/getRes",methods = ["POST"])
@@ -92,12 +103,19 @@ def res():
     # 断言检查image的类型是否为ndarray
     assert type(image) is np.ndarray
 
-    # 图像处理部分
-    res = pred.predict_img(image)
+        # 图像处理部分
+    res = {"disease_en": "Not recognized", "disease_zh": "未识别", "disease_id": ''}
+    try:
+        disease_en, disease_zh, disease_id = pred.predict(image)
+        res = {"disease_en": disease_en, "disease_zh": disease_zh, "disease_id": disease_id}
+    except Exception as e:
+        print(e)
+        pass
+
 
     # 将内存中的图像上传到oss TODO
 
-    return jsonify({'status': res})
+    return jsonify(res)
 
 
 if __name__ == "__main__":

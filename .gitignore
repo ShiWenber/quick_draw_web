@@ -1,1 +1,4 @@
 /oss_utils.py
+__pycache__
+temp
+*.log
