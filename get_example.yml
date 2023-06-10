@@ -1,0 +1,123 @@
+# # 查看每个类的示例图片
+# @app.route("/getExample",methods = ["POST"])
+# @swag_from("get_example.yml")
+# def get_example():
+#     data = request.get_json()
+#     class_name_2_num_dict = data['class_name_2_num_dict']
+#     assert type(class_name_2_num_dict) is dict
+#     # 判断 class_name_2_num_dict 是否所有包含全局定义的类别
+#     assert len(class_name_2_num_dict) == len(class_dict)
+#     for id, class_name in class_dict.items():
+#         if class_name not in class_name_2_num_dict:
+#             class_name_2_num_dict[class_name] = 0
+#     print("class_name_2_num_dict:", class_name_2_num_dict)
+
+#     data_dir='data/quick_draw_data'
+#     listes=os.listdir(data_dir)
+#     print(listes)
+#     data={}
+
+#     for i in range(len(listes)):
+#         data[listes[i]]=(np.load(data_dir+'/'+listes[i]+'/'+listes[i]+'.npy'))
+
+
+#     random_array = np.random.randint(0, data[listes[0]].shape[0], size=20)
+
+#     res = {}
+    
+#     print("共有十类，每类随机取得十张图片如下：")
+#     # for j in range(10):
+#     for j in range(len(listes)):
+#         for i in range(class_name_2_num_dict[listes[j]]):
+#             image_npy = data[listes[j]][random_array[i]].reshape(28, 28)
+#             img = Image.fromarray(image_npy)
+#             img_base64_str = base64.b64encode(img.tobytes()).decode()
+#             res[listes[j]] = img_base64_str
+#     print(res)
+
+#     return jsonify(res)
+# class_dict = {0: 'ambulance', 1: 'apple', 2: 'bear', 3: 'bicycle', 4: 'bird', 5: 'bus', 6: 'cat', 7: 'foot', 8: 'owl', 9: 'pig'}
+
+tags:
+  - 简笔画案例
+description:
+  - 返回简笔画案例
+
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema: 
+      type: object
+      properties:
+        class_name_2_num_dict:
+          type: string
+          description: The class name to number mapping, each class name is mapped to the number of examples to return
+          example: {'ambulance': 1, 'apple': 1, 'bear': 1, 'bicycle': 1, 'bird': 1, 'bus': 1, 'cat': 1, 'foot': 1, 'owl': 1, 'pig': 1} 
+
+responses:
+  200:
+    description: "Successful operation"
+    schema:
+      type: "object"
+      properties:
+        ambulance:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"
+        apple:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"
+        bear:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"
+        bicycle:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"
+        bird:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"
+        bus:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"
+        cat:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"
+        foot:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"
+        owl:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"
+        pig:
+          type: "array"
+          items:
+            type: "string"
+            format: "base64"
+            description: "The base64 encoded image data"

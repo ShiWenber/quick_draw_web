@@ -13,16 +13,21 @@ parameters:
         image_data:
           type: string
           description: The base64 encoded image data
+          example: "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/wAALCAAcABwBAREA/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/9oACAEBAAA/APn+rzaNqKaJHrJtJP7NkmNutwOV8wAEqfQ4Pfrzjoa2vF/gyfwja6HJcTb5dRshcyJtx5LZ+57kArn3Jrl63vDPhPUfEuq2dtFDNFazuRJeNExjiRQS7E9OADxn2r0G18S6Do/w1vtP0TS59X02TUv9Jt9UlAZsRg+aEiAKKCic7vUd6y7rVj8TtDvhexPbavpSXOowPCubeSLCF4iDypAX5Tk55BrzSvW/hd4itNLmtIbW41eaWCKSe9Fzqgs7C2j+6x2gMX+8D2O4jA71sT+Jra01nWbrwp8QdJFrqoX7THq9rNvDKuzIYxndx+eelaGm+OLLRvh4NM8NXT602kQ/8TDbcSWsnlZBMkHy8qGOCSMgdQQa8W8V6xBr3iK41OD7XicKW+1ujybgoByUVQenXGfXmsWilV2TO1iuRg4OMj0pK//Z"
 responses:
   200:
     description: 图片识别成功
     schema:
       type: object
       properties:
-        image_data:
+        class_name:
           type: string
-          description: The base64 encoded image data
-    example:
+          description: predicted most likely class
+          example: "cat"
+        predict_class:
+          type: object
+          description: predicted probability for each class
+          example: {'ambulance': 1.3229950751733003e-14, 'apple': 5.715871154634779e-25, 'bear': 6.615157875277483e-20, 'bicycle': 2.128785495557016e-20, 'bird': 1.9495826319610845e-20, 'bus': 2.1039694309455715e-19, 'cat': 1.0, 'foot': 1.4204512238372082e-16, 'owl': 4.4460886838891346e-20, 'pig': 1.5458278585969956e-20}
   500:
     description: 图片识别失败
     example:

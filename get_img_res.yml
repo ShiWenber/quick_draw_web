@@ -9,8 +9,18 @@ parameters:
     required: true
 responses:
   200:
-     description: 图片识别成功
-     example:
+    description: 图片识别成功
+    schema:
+      type: object
+      properties:
+        class_name:
+          type: string
+          description: predicted most likely class
+          example: "cat"
+        predict_class:
+          type: object
+          description: predicted probability for each class
+          example: {'ambulance': 1.3229950751733003e-14, 'apple': 5.715871154634779e-25, 'bear': 6.615157875277483e-20, 'bicycle': 2.128785495557016e-20, 'bird': 1.9495826319610845e-20, 'bus': 2.1039694309455715e-19, 'cat': 1.0, 'foot': 1.4204512238372082e-16, 'owl': 4.4460886838891346e-20, 'pig': 1.5458278585969956e-20}
   500:
-     description: 图片识别失败
-     example:
+    description: 图片识别失败
+    example:
