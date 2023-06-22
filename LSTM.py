@@ -1,15 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
-# In[2]:
-
-
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time    : 2023/5/20 9:37
-# @Author  : fuchanglong
-# @File    : LSTM.py
 import argparse
 import os
 
@@ -183,15 +171,24 @@ def train(model, train_loader, val_loader, criterion, optimizer, device, epochs)
 def evaluate(model, val_loader, criterion, device):
     model.eval()
     val_acc = 0.0
+    correct = 0
+    total = 0
     with torch.no_grad():
         for inputs, labels in val_loader:
             inputs = inputs.to(device)
             labels = labels.to(device)
             outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            val_acc += torch.sum(torch.round(outputs) == labels).item()
-        val_acc /= len(val_loader)
-        print(val_acc)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            # 都转化为float类型
+            correct += (predicted == labels).sum().item()
+    val_acc = 100.0 * correct / total
+            
+            
+            # loss = criterion(outputs, labels)
+            # val_acc += torch.sum(torch.round(outputs) == labels).item()
+        # val_acc /= len(val_loader)
+    print(val_acc)
     return val_acc
 
 
@@ -203,8 +200,6 @@ if __name__ == '__main__':
     parser.add_argument('--num_classes', type=int, default=10, help='number of epochs to train (default: 100)')
     parser.add_argument('--lr', type=float, default=0.001, help='learning rate (default: 0.001)')
     parser.add_argument('--num_workers', type=int, default=4, help='number of workers for dataset loading')
-    # `parse_known_args()`方法来解析命令行参数，这个方法与`parse_args()`方法类似，但是它可以处理未知的命令行参数，而不会引发错误。
-    # `parse_known_args()`方法返回一个元组，包含两个元素。第一个元素是解析后的命令行参数对象，第二个元素是一个列表，包含未知的命令行参数。由于这里只需要获取解析后的命令行参数对象，因此代码使用了索引操作符 `[0]` 来获取元组的第一个元素。
     args = parser.parse_known_args()[0]
     print(args)
     batch_size = args.batch_size
@@ -226,9 +221,9 @@ if __name__ == '__main__':
     test_loader = create_data_loader(test_data, test_y, batch_size=batch_size, num_workers=num_workers)
     # 定义模型，损失函数，优化器，学习率，训练次数，是否使用GPU
     model = BiLSTM(5, 256, 1, args.num_classes).to(device)
+    model.load_state_dict(torch.load('LSTM_model_fu.pth'))
     criterion = nn.CrossEntropyLoss().to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-    model.load_state_dict(torch.load('LSTM_model.pth'))
     # losses, acc = train(model, train_loader, val_loader, criterion, optimizer, device, epochs=args.num_epochs)
     val_acc = evaluate(model, test_loader, criterion, device)
     print(val_acc)

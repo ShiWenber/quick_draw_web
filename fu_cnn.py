@@ -150,7 +150,7 @@ def train(args, model, train_loader, val_loader):
                   .format(epoch + 1, num_epochs, total_loss / len(test_loader),total_correct / len(test_loader.dataset) * 100))
             acc.append(total_correct / len(test_loader.dataset))
             # 保存模型
-    torch.save(model.state_dict(),'CNN_model.pth')
+    # torch.save(model.state_dict(),'CNN_model.pth')
     return  model, losses,acc
 
 

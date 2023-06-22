@@ -54,6 +54,10 @@ parameters:
           type: string
           description: The class name to number mapping, each class name is mapped to the number of examples to return
           example: {'ambulance': 1, 'apple': 1, 'bear': 1, 'bicycle': 1, 'bird': 1, 'bus': 1, 'cat': 1, 'foot': 1, 'owl': 1, 'pig': 1} 
+        img_width:
+          type: integer
+          description: The width of the image to return
+          example: 28
 
 responses:
   200:
