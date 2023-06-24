@@ -177,11 +177,20 @@ def inference(img_data: np.array, path: str = None, uuid_str: str = None):
         else:
             # 以灰度图像读取
             img = Image.open(path).convert('L')
-            # resize 为 28 * 28，并用抗锯齿算法
-            img = img.resize((28, 28), Image.ANTIALIAS)
+            # Image.fromarray(np.array(img)).save(f"test_gray.png")
             img_data = np.array(img)
+            img_data[img_data > 0] = 255
+            img = Image.fromarray(img_data)
+            # Image.fromarray(img_data).save(f"test_gray2.png")
+            # resize 为 28 * 28，并用抗锯齿算法
+            # img = img.resize((28, 28), Image.ANTIALIAS)
+            img = img.resize((28, 28))
+            img_data = np.array(img)
+            # print("img_data:", img_data)
+            # Image.fromarray(img_data).save(f"test.png")
             # 阈值离散
             img_data[img_data > 0] = 255
+            Image.fromarray(img_data).save(f"input.png")
             # 反转图像并标准化处理
             # img_data = np.logical_not(img_data.astype(bool)).astype(int)
             # 保存图像
@@ -197,7 +206,10 @@ def inference(img_data: np.array, path: str = None, uuid_str: str = None):
     img_data = img_data.reshape(-1, 28, 28)
 
     img = torch.from_numpy(img_data)
-    img = img.float() / 255.0
+    # 转化为float类型
+    img = img.float()
+    if img_data.max() > 1:
+        img = img.float() / 255.0
     img = img.view(-1, 1, 28, 28).to(device)
     outputs = model(img)
     # print("outputs:", outputs)
@@ -311,7 +323,7 @@ def get_img():
         print(e)
         pass
     # 删除临时文件
-    os.remove(upload_path)
+    # os.remove(upload_path)
 
     # 返回图片
     ## 全部在内存缓冲区完成能提高性能（如果使用imwrite再保存会导致从外部磁盘读取的io操作）
@@ -406,13 +418,39 @@ def image():
     # # 转化为opencv图像的ndarray格式
     # image = cv2.imdecode(image_array, cv2.IMREAD_UNCHANGED)
 
-    # 读取为PIL图像
-    image = Image.open(BytesIO(image_binary_data))
+    # 读取为PIL图像，并且为灰度
+    # image = Image.open(BytesIO(image_binary_data))
+    image = Image.open(BytesIO(image_binary_data)).convert('L')
+
+    # 调整为28 * 28
+    image = image.resize((28, 28), Image.ANTIALIAS)
+
 
     image_data = np.array(image)
 
+
+    # 离散处理
+    # image_data[image_data == 255] = 0
+
+    # 保存图像
+    Image.fromarray(image_data).save("temp" + ".png")
+
+    # 如果 60% 以上的像素为白色，则认为是白色背景，需要反转
+    if image_data[image_data > 220].shape[0] > 0.6 * image_data.shape[0] * image_data.shape[1]:
+        image_data = 255 - image_data
+    
+    Image.fromarray(image_data).save("temp_con" + ".png")
+
+
+    image_data[image_data > 0] = 255
+
+    Image.fromarray(image_data).save("temp_con2" + ".png")
+
     # 断言检查image的类型是否为ndarray
     # assert type(image_array) is np.array
+
+    # 图像反转
+    # image_data = np.logical_not(image_data.astype(bool)).astype(int)
 
     # 图像处理部分
     res = {"class_name": "Not recognized", "predict_class": {}}
