@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  quick_draw_backend:
+    # container_name: quick_draw_backend
+    image: quick_draw_backend
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    # command: nvidia-smi
+    # command: bash ./run.sh
+    command: conda run -n quick_draw_backend bash ./run.sh
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - 50003:5003

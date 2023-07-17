@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  quick_draw_backend:
+    runtime: nvidia
+    image: quick_draw_backend
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    # environment:
+    #   JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005,quiet=y
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - 5004:9000
+      - 50003:5003
